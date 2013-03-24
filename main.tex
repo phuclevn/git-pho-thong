@@ -1,0 +1,213 @@
+\documentclass[12pt]{article}
+
+\usepackage[vietnam]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+% using index
+\usepackage{makeidx}
+
+% for table of contents with links
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+
+
+
+% drawing graph
+\usepackage{tikz}
+
+%coding format
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\usepackage{caption}
+\renewcommand{\lstlistingname}{Code}
+\lstset{basicstyle=\footnotesize\ttfamily}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \parbox{\textwidth}{\colorbox{black}{\parbox{\textwidth}{#1#2#3}}\vskip-4pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{frame=b,xleftmargin=\fboxsep,xrightmargin=-\fboxsep, rulecolor= \color{black}}
+
+\title{Git Phổ Thông}
+\author{Lê Quang Phúc, Lê Quang Phú}
+
+%make index
+\makeindex
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Tài liệu này giới thiệu các lệnh thường dùng với Git thông qua các ví dụ cụ thể.
+\end{abstract}
+
+\tableofcontents
+
+\section{Giới thiệu}
+
+Sau một thời gian sử dụng Git trong công việc, bản thân tôi đã trải qua nhiều giai đoạn, từ làm quen với Git, cho đến đau khổ với Git, và bây giờ là yêu Git. Quyển sách này giới thiệu một số lệnh Git cơ bản được dùng trong một số tình huống cụ thể 
+
+\section{Làm thế nào để cài đặt Git}
+Thiết lập hệ thống làm việc với Git trên Linux và Windows đều rất đơn giản.
+Trên Ubuntu, bạn cài đặt Git với \textbf{apt-get} như sau
+
+\begin{lstlisting}[label=ubuntu-installation,caption=Cài đặt Git trên Ubuntu]
+# cac lenh linux
+$ sudo apt-get install git-core      # cai dat git
+\end{lstlisting}
+
+Trên RedHat, bạn cài đặt Git với \textbf{yum} như sau
+\begin{lstlisting}[label=redhat-installation,caption=Cài đặt Git trên Ubuntu]
+# cac lenh linux
+$ sudo yum install git               # cai dat git
+\end{lstlisting}
+
+
+Với Windows, bạn dùng google và tìm kiếm với từ khóa \textbf{git bash}. Sau đó cài đặt git-bash vào là có thể dùng được Git.
+
+Sau khi thiết lập được hệ thống Git trên máy tính của mình, để thực hành với Git các bạn có thể sử dụng GitHub để tạo repository của Git miễn phí. Sau khi đã có tài khoản ở GitHub thì chúng ta sẽ coi GitHub như là remote server chứa remote repository của chúng ta, và máy tính của chúng ta sẽ chứa local repository.
+
+\section{Sao chép dự án với Git}
+\index{clone}
+
+Để bắt đầu làm việc với một dự án có sẵn, chúng ta sao chép dự án đó về máy của mình với \textbf{git clone}.
+
+\begin{lstlisting}[label=sao-chep-clone,caption=Sao chép]
+# cac lenh git
+$ git clone git_url                  # sao chep
+\end{lstlisting}
+
+\section{Làm quen với Git}
+Để có thể bắt đầu làm việc được với Git, chúng ta chỉ cần biết đến bốn câu lệnh \index{\textbf{init}}, \textbf{status}, \textbf{add}, \textbf{commit}. Câu lệnh \textbf{git init} dùng để khởi tạo Git cho một dự án. Sau khi thực hiện lệnh này bạn có thể bắt đầu sử dụng các lệnh của Git để quản lý dự án của mình. Câu lệnh \textbf{git status} giúp bạn xem trạng thái của Git và tôi nghĩ rằng bạn sẽ thường xuyên muốn làm như vậy khi sử dụng Git. Để cập nhật những thay đổi trong dự án của mình với Git, bạn sử dụng câu lệnh \textbf{git add}. Cuối cùng, để lưu lại trạng thái của toàn bộ dự án tại một thời điểm thì bạn sẽ dùng câu lệnh \textbf{git commit}
+
+\begin{lstlisting}[label=co-ban-basic,caption=Bốn lệnh cơ bản]
+# cac lenh git
+$ git init                           # khoi tao Git
+$ git status                         # Xem trang thai
+$ git add                            # luu chinh sua 
+$ git commit                         # luu trang thai du an
+\end{lstlisting}
+
+\section{Thực chiến với bốn lệnh cơ bản của Git}
+\subsection{Khởi tạo dự án}
+Trong tình huống mà bạn muốn áp dụng Git để quản lý một dự án của mình, bạn chuyển thư mục hiện thời của mình đến thư mục chứa dự án và sử dụng \textbf{git init}, là lệnh đầu tiên trong \ref{co-ban-basic}.
+
+\begin{lstlisting}[label=tinh-huong-co-ban-basic-situation,caption=Bốn lệnh cơ bản]
+# cac lenh he dieu hanh
+$ cd du-an-voi-git                   # chuyen thu muc
+$ git init                           # Khoi tao git
+$ git status                         # xem trang thai
+$ cat > file_moi.txt                 # tao file
+noi dung file 1
+noi dung file 2
+(ctrl + D)
+$ cat file_moi.txt                   # xem lai noi dung
+$ git status                         # file moi chua vao git
+$ git add file_moi.txt               # dua file vao git
+$ git status                         # file da vao git
+$ git commit                         # luu trang thai
+\end{lstlisting}
+
+
+
+\section{Làm việc với branch}
+\index{branch}
+Khi làm việc với các dự án chúng ta thường phải phân nhánh tại một thời điểm nào đó, chẳng hạn để phân biệt bản chính với bản đang phát triển, hay để phát triển thêm nhứng tính năng mới. Với Git chúng ta có thể đễ dàng đạt được điều này. 
+\subsection{Tạo nhánh mới}
+\begin{lstlisting}[label=tao-nhanh-create-branch,caption=Tạo nhánh]
+# cac lenh git
+$ git branch                         # xem danh sach nhanh local
+$ git branch -r                      # xem danh sach nhanh remote
+$ git branch -a                      # xem tat ca cac nhanh
+$ git branch ten_nhanh               # tao nhanh moi
+$ git push origin ten_nhanh:ten_nhanh# tao nhanh o remote
+\end{lstlisting}
+
+Thông thường sau khi tạo nhánh mới xong bạn sẽ muốn làm việc ngay trên nhánh vừa được tạo, khi đó bạn có thể thực hiện những lệnh sau
+\begin{lstlisting}[label=tao-nhanh-create-branch-short,caption=Tạo nhánh tắt]
+# cac lenh git
+$ git branch ten_nhanh               # tao nhanh moi
+$ git checkout ten_nhanh             # chuyen nhanh lam viec
+# hai lenh tren tuong duong voi lenh sau
+$ git checkout -b ten_nhanh          # tao nhanh moi, chuyen nhanh
+\end{lstlisting}
+
+
+\subsection{Xóa nhánh}
+Để xóa một nhánh chúng ta dùng các lệnh sau
+\begin{lstlisting}[label=xoa-nhanh-delete-branch,caption=Xóa nhánh]
+# cac lenh git
+$ git branch -d ten_nhanh            # xoa nhanh o local
+$ git push origin :ten_nhanh         # xoa nhanh o remote
+\end{lstlisting}
+
+\subsection{Ghép nhánh}
+Để ghép hai nhánh lại với nhau chúng ta sử dụng lệnh sau đây
+\begin{lstlisting}[label=ghep-nhanh-merge-local-branch,caption=Ghép nhánh local]
+# cac lenh git
+$ git checkout ten_nhanh            # chuyen nhanh
+$ git merge nhanh_local             # ghep voi nhanh local khac
+\end{lstlisting}
+
+\begin{lstlisting}[label=ghep-nhanh-merge-remote-branch,caption=Ghép nhánh remote]
+# cac lenh git
+$ git checkout ten_nhanh            # chuyen nhanh
+$ git merge remote:nhanh_remote     # ghep voi nhanh local khac
+\end{lstlisting}
+
+
+\section{Một số câu hỏi thường gặp}
+\subsection{Tạo và xóa tag ở remote server}
+\index{tag}
+Để tạo một tag ở remote server bạn sử dụng các lệnh sau đây.
+
+\begin{lstlisting}[label=create-tag-remote-server,caption=Tạo tag ở remote server]
+# cac lenh git
+$ git tag                            # xem list cac tag hien co
+$ git tag -a ten_tag -m 'ghi chu'    # khoi tao Git
+$ git tag                            # xem lai list cac tag 
+$ git push origin ten_tag            # push len remote server
+\end{lstlisting}
+
+Tình huống ở đây là bạn đã tạo nhầm một tag ở remote server với các lệnh trong Code \ref{create-tag-remote-server} và bạn muốn xóa nó đi.
+
+\begin{lstlisting}[label=delete-tag-remote-server,caption=Xóa tag ở remote server]
+# cac lenh git
+$ git tag                            # xem list cac tag hien co
+$ git tag -d ten_tag                 # khoi tao Git
+$ git tag                            # xem lai list cac tag 
+$ git push origin :refs/tags/ten_tag # push len remote server
+\end{lstlisting}
+
+\subsection{Sử dụng cherry-pick để gắp các commit đơn lẻ}
+
+\section{Cấu trúc dữ liệu của Git}
+Git lưu trữ dư liệu trên bôn cấu trúc dữ liệu chính, đó là:
+\begin{itemize}
+\item blob
+\item tree
+\item commit
+\item tag
+\end{itemize}
+\subsection{Blob: đơn vị lưu trữ nhỏ nhất của Git}
+Nội dung của các file trong một dự án được quản lý bởi Git được lưu trữ trong các blob. Mỗi file sẽ tương ứng với một và chỉ một blob.
+
+\subsection{Tree: cấu trúc lưu trữ của Git}
+Nội dung của các file (được lưu bởi blob) sẽ là các nốt lá (nốt cuối của một nhánh) trên cây lưu trữ của Git. Các nhánh lại được liên kết với nhau tạo thành cây.
+
+\subsection{Commit: các cột mốc lịch sử}
+Mỗi commit lưu trữ thông tin về người thực hiện commit, một con trỏ chỉ đến một nút trên cây lưu trữ trạng thái của dự án, các con trỏ chỉ đến các nốt bố mẹ để dẫn đến trạng thái này.
+
+\subsection{Tag: sự kiện}
+
+\printindex
+\end{document}
